@@ -27,20 +27,44 @@ public class Printer {
         int result = 0;
         int cnt = 1;
 
-        try{
-            if(priorities.length > 100 || priorities.length < 0){
+        try {
+            if (priorities.length > 100 || priorities.length < 0) { // 현재 대기목록에는 1개 이상 100개 이하의 문서가 있습니다.
                 throw new RestrictionsException("There must be at least 1 and no more than 100 documents in the waiting list.");
             }
-        }catch (RestrictionsException e){
+        } catch (RestrictionsException e) {
             e.printStackTrace();
         }
 
-        Queue queue = new LinkedList();
+        Queue<Node> queue = new LinkedList();
 
+        for (int i = 0; i < priorities.length; i++) {
+            queue.add(new Node(i, priorities[i]));
+        }
 
-
-
+        while (true) {
+            Node n = (Node) queue.poll();
+            int highprior = (int) queue.stream().filter(Node -> Node.prior > n.prior).count();
+            if (highprior == 0) {
+                if (n.loc == location) {
+                    result = cnt;
+                    break;
+                }
+                cnt++;
+            } else {
+                queue.add(n);
+            }
+        }
         return result;
+    }
+
+    static class Node {
+        int loc;
+        int prior;
+
+        Node(int loc, int prior) {
+            this.loc = loc;
+            this.prior = prior;
+        }
     }
 
     static class RestrictionsException extends Exception {
