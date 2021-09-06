@@ -34,31 +34,32 @@ public class Truck_crossing_the_bridge {
                 throw new RestrictionsException("The length of truck_weights is 1 or more and 10,000 or less.");
             }
 
-            Queue<Truck> queue = new LinkedList<Truck>();
+            Queue<Integer> queue = new LinkedList<Integer>();
+
+            int spare_weight = weight;
+            int t_cnt = 0;
+            int time = 1;
 
             for (int i = 0; i < truck_weights.length; i++) {
                 if (truck_weights[i] < 1 || truck_weights[i] > weight) {
                     throw new RestrictionsException("All trucks weigh 1 or more and no more than 'weight'.");
                 }
-                queue.add(new Truck(truck_weights[i], bridge_length));
-            }
 
-            int[] move_lenght = new int [queue.size()];
+                int truck = truck_weights[i];
 
-            int spare_weight = weight - queue.peek().weight;
-            int t_cnt = 0;
-
-            while (!queue.isEmpty()) {
-                for(int i = 0 ; i < t_cnt; i++){
-                    if(move_lenght[i] == bridge_length){
-                        spare_weight +
+                while (true) {
+                    if(queue.isEmpty()){
+                        queue.add(truck);
+                        t_cnt++; time++;
+                        spare_weight -= truck;
+                        break;
                     }
-                }
-                if(spare_weight > 0) {
-                    Truck t = queue.poll();
 
                 }
+
             }
+
+
 
 
         } catch (RestrictionsException e) {
@@ -66,16 +67,6 @@ public class Truck_crossing_the_bridge {
         }
 
         return answer;
-    }
-
-    static class Truck {
-        int weight;
-        int move;
-
-        Truck(int weight, int move) {
-            this.weight = weight;
-            this.move = move;
-        }
     }
 
     static class RestrictionsException extends Exception {
