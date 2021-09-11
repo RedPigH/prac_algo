@@ -16,9 +16,9 @@ import java.util.Queue;
 
 public class Truck_crossing_the_bridge {
     public static void main(String[] args) {
-        int bridge_length = 2;
-        int weight = 10;
-        int[] truck_weights = {7, 4, 5, 6};
+        int bridge_length = 5;
+        int weight = 5;
+        int[] truck_weights = {2, 2, 2, 2, 1, 1, 1, 1, 1};
 
         Solution(bridge_length, weight, truck_weights);
     }
@@ -37,8 +37,7 @@ public class Truck_crossing_the_bridge {
             Queue<Integer> queue = new LinkedList<Integer>();
 
             int spare_weight = weight;
-            int t_cnt = 0;
-            int time = 1;
+            int time = 0;
 
             for (int i = 0; i < truck_weights.length; i++) {
                 if (truck_weights[i] < 1 || truck_weights[i] > weight) {
@@ -48,21 +47,23 @@ public class Truck_crossing_the_bridge {
                 int truck = truck_weights[i];
 
                 while (true) {
-                    if(queue.isEmpty()){
+                    if ((queue.isEmpty() || spare_weight >= truck) && queue.size() != bridge_length) {
                         queue.add(truck);
-                        t_cnt++; time++;
+                        time++;
                         spare_weight -= truck;
                         break;
+                    } else if (queue.size() == bridge_length) {
+                        spare_weight += queue.poll();
+                    } else {
+                        queue.add(0);
+                        time++;
                     }
-
                 }
-
             }
+            answer = time + bridge_length;
 
-
-
-
-        } catch (RestrictionsException e) {
+        } catch (
+                RestrictionsException e) {
             e.printStackTrace();
         }
 
