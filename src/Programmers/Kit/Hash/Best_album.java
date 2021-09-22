@@ -13,6 +13,10 @@ https://programmers.co.kr/learn/courses/30/lessons/42579
 - 모든 장르는 재생된 횟수가 다릅니다.
 */
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 public class Best_album {
     public static void main(String[] args) {
         String[] genres = {};
@@ -22,7 +26,32 @@ public class Best_album {
     }
 
     private static int[] Solution(String[] genres, int[] plays) {
+        ArrayList list = new ArrayList();
+        HashMap<String,Integer> hash = new HashMap();
         int[] result = {};
+
+        try{
+            if(genres.length != plays.length || genres.length < 1 || genres.length>10000){
+                throw new RestrictionsException("genres and plays are the same length, which is greater than or equal to 1 and less than or equal to 10,000.");
+            }
+
+            for(int i = 0 ; i< genres.length; i++){
+                if(hash.containsKey(genres[i])){
+                    hash.put(genres[i], hash.get(genres[i]) + plays[i]);
+                }
+                else hash.put(genres[i],plays[i]);
+            }
+
+            List<String> keySet = new ArrayList<>(hash.keySet());
+            keySet.sort((o1, o2) -> hash.get(o2) - hash.get(o1));
+
+
+
+
+
+        }catch (RestrictionsException e){
+            e.printStackTrace();
+        }
 
         return result;
     }
