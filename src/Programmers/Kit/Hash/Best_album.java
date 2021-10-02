@@ -45,10 +45,6 @@ public class Best_album {
             List<String> keySet = new ArrayList<>(hash.keySet());
             keySet.sort((o1, o2) -> hash.get(o2) - hash.get(o1));
 
-
-
-
-
         }catch (RestrictionsException e){
             e.printStackTrace();
         }
