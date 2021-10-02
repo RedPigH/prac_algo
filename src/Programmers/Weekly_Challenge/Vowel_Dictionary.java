@@ -17,13 +17,13 @@ public class Vowel_Dictionary {
     }
 
     private static int Solution(String word) {
-        int answer = 1, order = 781;  // 781 : 첫자리 변경될때 순서 차이
+        int answer = 0, order = 781;  // 781 : 첫자리 변경될때 순서 차이
         String dic = "AEIOU";
         for(int i = 0; i < word.length(); i++){
             if(i != 0) {
                 order = order / 5;
-                answer += (order * dic.indexOf(word.charAt(i)));
-            }else answer += (order * dic.indexOf(word.charAt(i)));
+                answer += (order * dic.indexOf(word.charAt(i))) + 1;
+            }else answer += (order * dic.indexOf(word.charAt(i))) + 1;
         }
 
         System.out.println(answer);
